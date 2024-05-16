@@ -21,39 +21,24 @@
         <stringProp name="shareMode">shareMode.all</stringProp>
       </CSVDataSet>
       <hashTree/>
-      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables">
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="threads" elementType="Argument">
             <stringProp name="Argument.name">threads</stringProp>
-            <stringProp name="Argument.value">2</stringProp>
+            <stringProp name="Argument.value">1</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="rampup" elementType="Argument">
             <stringProp name="Argument.name">rampup</stringProp>
-            <stringProp name="Argument.value">1</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="user" elementType="Argument">
-            <stringProp name="Argument.name">user</stringProp>
-            <stringProp name="Argument.value">charles.daniel@twenty5.com</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="password" elementType="Argument">
-            <stringProp name="Argument.name">password</stringProp>
-            <stringProp name="Argument.value">Acdraj@1984</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="url" elementType="Argument">
-            <stringProp name="Argument.name">url</stringProp>
-            <stringProp name="Argument.value">https://approuter-twenty5ipe-dev.cfapps.us10.hana.ondemand.com/</stringProp>
+            <stringProp name="Argument.value">200</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
-      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group" enabled="true">
-        <stringProp name="ThreadGroup.num_threads">${__P(threads,3)}</stringProp>
-        <stringProp name="ThreadGroup.ramp_time">${__P(rampup,1)}</stringProp>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Thread Group">
+        <stringProp name="ThreadGroup.num_threads">${threads}</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">${rampup}</stringProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller">
@@ -62,7 +47,7 @@
         </elementProp>
       </ThreadGroup>
       <hashTree>
-        <com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig guiclass="com.googlecode.jmeter.plugins.webdriver.config.gui.ChromeDriverConfigGui" testclass="com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig" testname="jp@gc - Chrome Driver Config">
+        <com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig guiclass="com.googlecode.jmeter.plugins.webdriver.config.gui.ChromeDriverConfigGui" testclass="com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig" testname="jp@gc - Chrome Driver Config" enabled="true">
           <boolProp name="WebDriverConfig.acceptinsecurecerts">true</boolProp>
           <boolProp name="WebDriverConfig.reset_per_iteration">true</boolProp>
           <stringProp name="WebDriverConfig.driver_path">/usr/local/bin/chromedriver</stringProp>
@@ -86,43 +71,18 @@
           <stringProp name="WebDriverConfig.custom_capabilites"></stringProp>
         </com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig>
         <hashTree/>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Simple Controller" enabled="true"/>
         <hashTree>
           <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="Login" enabled="true">
-            <stringProp name="WebDriverSampler.script">import java.util.concurrent.TimeUnit; org.openqa.selenium.By 
+            <stringProp name="WebDriverSampler.script">import java.util.concurrent.TimeUnit; org.openqa.selenium.By
 WDS.sampleResult.sampleStart()
-WDS.browser.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS)
-WDS.browser.get(&quot;${__P(url,&quot;https://approuter-twenty5ipe-dev.cfapps.us10.hana.ondemand.com/&quot;)}&quot;)
-WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;j_username\&quot;]&quot;)).click()
-String emailAddress = &quot;${user}&quot;
-String password = &quot;${password}&quot;
-org.openqa.selenium.By usernameField = org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;j_username\&quot;]&quot;)
-org.openqa.selenium.By passwordField = org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;j_password\&quot;]&quot;)
-org.openqa.selenium.By submitbutton = org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;logOnFormSubmit\&quot;]&quot;)
-
-
-org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) WDS.browser
-
-// Set username
-js.executeScript(&quot;arguments[0].value = arguments[1];&quot;, WDS.browser.findElement(usernameField), emailAddress)
-
-// ensure the app recognizes the change
-js.executeScript(&quot;arguments[0].dispatchEvent(new Event(&apos;input&apos;, { bubbles: true }));&quot;, WDS.browser.findElement(usernameField))
-
-//Set Password
-js.executeScript(&quot;arguments[0].value = arguments[1];&quot;, WDS.browser.findElement(passwordField), password)
-
-// ensure the app recognizes the change
-js.executeScript(&quot;arguments[0].dispatchEvent(new Event(&apos;input&apos;, { bubbles: true }));&quot;, WDS.browser.findElement(passwordField))
-
-WDS.browser.findElement(submitbutton).click()
-
+WDS.browser.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+WDS.browser.get(&apos;https://approuter-twenty5ipe-dev.cfapps.us10.hana.ondemand.com/&apos;)
+WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;j_username\&quot;]&quot;)).sendKeys(&quot;charles.daniel@twenty5.com&quot;)
+WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;j_password\&quot;]&quot;)).sendKeys(&quot;Acdraj@1984&quot;)
+WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;logOnFormSubmit\&quot;]&quot;)).click()
 WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;button-1023-btnInnerEl\&quot;]&quot;)).click()
-
 WDS.sampleResult.sampleEnd()
-
-
-
 </stringProp>
             <stringProp name="WebDriverSampler.parameters"></stringProp>
             <stringProp name="WebDriverSampler.language">groovy</stringProp>
@@ -177,26 +137,16 @@ WDS.sampleResult.sampleEnd()
           </hashTree>
           <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="Search Proposal" enabled="true">
             <stringProp name="TestPlan.comments">${proposal}</stringProp>
-            <stringProp name="WebDriverSampler.script">WDS.sampleResult.sampleStart()
+            <stringProp name="WebDriverSampler.script">//var selenium = JavaImporter(org.openqa.selenium)
+//var fileUtils = JavaImporter(org.apache.qpid.util)
+//var io = JavaImporter(java.io)
+WDS.sampleResult.sampleStart()
+WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;iBEComboBox-1270-inputEl\&quot;]&quot;)).sendKeys(&quot;Proposal&quot;)
+WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;ext-element-1\&quot;]&quot;)).click()
+WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;textfield-1272-inputEl\&quot;]&quot;)).sendKeys(&quot;${proposal}&quot; + &quot;\n&quot;)
 
-WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;iBEComboBox-1270-trigger-picker\&quot;]&quot;)).click()
-org.openqa.selenium.JavascriptExecutor js = (org.openqa.selenium.JavascriptExecutor) WDS.browser
-
-js.executeScript(&quot;arguments[0].value = arguments[1];&quot;, WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;iBEComboBox-1270-inputEl\&quot;]&quot;)), &quot;Proposal&quot;)
-
-js.executeScript(&quot;arguments[0].dispatchEvent(new Event(&apos;input&apos;, { bubbles: true }))&quot;, WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;iBEComboBox-1270-inputEl\&quot;]&quot;)))
-
-WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;iBEComboBox-1270-picker-listEl\&quot;]&quot;)).click()
-
-java.lang.Thread.sleep(1000)
-
-WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;textfield-1272-inputEl\&quot;]&quot;)).click()
-
-js.executeScript(&quot;arguments[0].value = arguments[1];&quot;, WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;textfield-1272-inputEl\&quot;]&quot;)), &quot;${proposal}&quot;)
-WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;textfield-1272-inputEl\&quot;]&quot;)).sendKeys(org.openqa.selenium.Keys.RETURN)
-
-js.executeScript(&quot;arguments[0].dispatchEvent(new Event(&apos;input&apos;, { bubbles: true }))&quot;, WDS.browser.findElement(org.openqa.selenium.By.xpath(&quot;//*[@id=\&quot;textfield-1272-inputEl\&quot;]&quot;)))
-
+//var screenshot = WDS.browser.getScreenshotAs(org.openqa.selenium.OutputType.FILE)
+//org.apache.qpid.util.FileUtils.copy(screenshot, java.io.File(&apos;D:/searchScreenshot/screenshot.png&apos;))
 WDS.sampleResult.sampleEnd()
 </stringProp>
             <stringProp name="WebDriverSampler.parameters"></stringProp>
@@ -603,7 +553,7 @@ WDS.sampleResult.sampleEnd()
             <hashTree/>
           </hashTree>
         </hashTree>
-        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table">
+        <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
